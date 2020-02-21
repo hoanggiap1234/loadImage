@@ -19,7 +19,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 RecyclerView mRecyclerView;
 ImageAdapter mImageAdapter;
-MediaPlayer mediaPlayer;
     Button mSetTime;
     Button mPausePress;
     Button mSetting;
