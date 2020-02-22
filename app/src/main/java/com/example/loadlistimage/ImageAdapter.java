@@ -20,10 +20,13 @@ import io.gresse.hugo.vumeterlibrary.VuMeterView;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<Image> listImage;
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-private MediaPlayerHelper mMediaPlayerHelper;
-    public ImageAdapter(List<Image> listImage) {
+    private MediaPlayer mediaPlayer ;
+
+    public ImageAdapter(List<Image> listImage, MediaPlayer mediaPlayer) {
         this.listImage = listImage;
+        this.mediaPlayer = mediaPlayer;
+
+
     }
 
     @NonNull
@@ -55,7 +58,6 @@ private MediaPlayerHelper mMediaPlayerHelper;
                     holder.mPause.setVisibility(View.INVISIBLE);
                     holder.mPlay.setVisibility(View.VISIBLE);
                 }
-
                 else {
                     int n = listImage.get(position).imageSound;
                     mediaPlayer = MediaPlayer.create(v.getContext(),n);
