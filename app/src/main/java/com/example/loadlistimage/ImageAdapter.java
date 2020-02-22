@@ -1,5 +1,6 @@
 package com.example.loadlistimage;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,8 @@ import io.gresse.hugo.vumeterlibrary.VuMeterView;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<Image> listImage;
-    private int count = 0;
-    private MediaPlayerHelper mediaPlayerHelper;
-private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+private MediaPlayerHelper mMediaPlayerHelper;
     public ImageAdapter(List<Image> listImage) {
         this.listImage = listImage;
     }
@@ -44,39 +44,29 @@ private MediaPlayer mediaPlayer;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
-                playSound(v,position);
+
                 holder.meterView.setVisibility(View.VISIBLE);
                 holder.mPause.setVisibility(View.VISIBLE);
                 holder.mPlay.setVisibility(View.INVISIBLE);
-//                holder.btnSetTime.setVisibility(View.VISIBLE);
-//                holder.btnPausePress.setVisibility(View.VISIBLE);
-//                holder.btnSetting.setVisibility(View.VISIBLE);
-                if (count > 1) {
-                    Toast.makeText(v.getContext(), ""+count, Toast.LENGTH_SHORT).show();
-                    stopSound();
+
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.pause();
                     holder.meterView.setVisibility(View.INVISIBLE);
                     holder.mPause.setVisibility(View.INVISIBLE);
                     holder.mPlay.setVisibility(View.VISIBLE);
-                    count=0;
+                }
+
+                else {
+                    int n = listImage.get(position).imageSound;
+                    mediaPlayer = MediaPlayer.create(v.getContext(),n);
+                    mediaPlayer.start();
+                    mediaPlayer.setLooping(true);
+
                 }
             }
         });
     }
 
-    public void playSound(View v,int position) {
-        int n = listImage.get(position).imageSound;
-
-        mediaPlayer = MediaPlayerHelper.getSingletonMedia();
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
-    }
-
-    public void stopSound() {
-        mediaPlayer = MediaPlayerHelper.getSingletonMedia();
-        mediaPlayer.stop();
-
-    }
 
     @Override
     public int getItemCount() {
@@ -88,9 +78,6 @@ private MediaPlayer mediaPlayer;
         ImageView mPlay;
         ImageView mPause;
         VuMeterView meterView;
-Button btnSetTime;
-Button btnPausePress;
-Button btnSetting;
 
 
         public ImageViewHolder(@NonNull View itemView) {
@@ -101,19 +88,6 @@ Button btnSetting;
             mPause.setVisibility(View.INVISIBLE);
             meterView = itemView.findViewById(R.id.vumater);
             meterView.setVisibility(View.INVISIBLE);
-//            btnSetTime = itemView.findViewById(R.id.btn_barSetTime);
-//            btnSetTime.setVisibility(View.INVISIBLE);
-//            btnPausePress=itemView.findViewById(R.id.btn_pausePress);
-//            btnPausePress.setVisibility(View.INVISIBLE);
-//            btnSetting.setVisibility(View.INVISIBLE);
-
-
-        }
-
-        public void setVisiblity() {
-            meterView.setVisibility(View.INVISIBLE);
-            mPause.setVisibility(View.INVISIBLE);
-            mPlay.setVisibility(View.VISIBLE);
         }
     }
 }
