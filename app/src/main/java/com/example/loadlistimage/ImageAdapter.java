@@ -1,26 +1,26 @@
 package com.example.loadlistimage;
 
-import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.gresse.hugo.vumeterlibrary.VuMeterView;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<Image> listImage;
-    private MediaPlayer mediaPlayer ;
+    private MediaPlayer mediaPlayer;
+
 
     public ImageAdapter(List<Image> listImage, MediaPlayer mediaPlayer) {
         this.listImage = listImage;
@@ -52,17 +52,27 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 holder.mPause.setVisibility(View.VISIBLE);
                 holder.mPlay.setVisibility(View.INVISIBLE);
 
-                if(mediaPlayer.isPlaying()){
+                if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     holder.meterView.setVisibility(View.INVISIBLE);
                     holder.mPause.setVisibility(View.INVISIBLE);
                     holder.mPlay.setVisibility(View.VISIBLE);
-                }
-                else {
-                    int n = listImage.get(position).imageSound;
-                    mediaPlayer = MediaPlayer.create(v.getContext(),n);
+                } else {
+
+                    String path = "android.resource://com.example.loadlistimage"+listImage.get(position).imageSound;
+                    Uri uri = Uri.parse(path);
+
+                    try {
+                        mediaPlayer.setDataSource(v.getContext(),uri);
+                        mediaPlayer.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     mediaPlayer.start();
                     mediaPlayer.setLooping(true);
+//                    setMediaPlayer(mediaPlayer);
+
 
                 }
             }
@@ -92,4 +102,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             meterView.setVisibility(View.INVISIBLE);
         }
     }
+
+
 }

@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,10 +26,10 @@ public class FragmentListSound extends Fragment {
 
     public FragmentListSound(List<Image> mListImage, MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
-        this.mListImage =mListImage;
+        this.mListImage = mListImage;
         mListImage.add(new Image(R.drawable.sound_birds_song, R.raw.sound_birds_song));
         mListImage.add(new Image(R.drawable.sound_shower, R.raw.sound_shower));
-        mListImage.add(new Image(R.drawable.sound_stream, R.raw.sound_stream));
+        mListImage.add(new Image(R.drawable.sound_stream,R.raw.sound_stream));
         mListImage.add(new Image(R.drawable.sound_washer, R.raw.sound_washer));
         mListImage.add(new Image(R.drawable.sound_tv_noise, R.raw.sound_tv_noise));
     }
@@ -47,7 +46,7 @@ public class FragmentListSound extends Fragment {
         btnSetting = rootView.findViewById(R.id.btn_setting);
 
         btnSettime.setVisibility(View.INVISIBLE);
-//        btnPausePress.setVisibility(View.INVISIBLE);
+        btnPausePress.setVisibility(View.INVISIBLE);
         btnSetting.setVisibility(View.INVISIBLE);
 
         mImageAdapter = new ImageAdapter(mListImage, mediaPlayer);
@@ -55,14 +54,11 @@ public class FragmentListSound extends Fragment {
         mRecyclerView.setAdapter(mImageAdapter);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
+
         btnPausePress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
-                }
-
-                Toast.makeText(getActivity(), ""+mediaPlayer.isPlaying(), Toast.LENGTH_SHORT).show();
             }
         });
 
